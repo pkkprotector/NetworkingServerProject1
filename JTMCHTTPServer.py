@@ -16,21 +16,20 @@
 from socket import *
 serverSocket = socket(AF_INET, SOCK_STREAM)
 #Prepare a socket
-serverPort = #choose a number
-serverSocket.bind(('',serverPort))
-serverSocet.listen(1)                   #lets server catch client's call
+serverPort = 12000
+serverSocket.bind(('localhost',serverPort))
+serverSocket.listen(1)                   #lets server catch client's call
 while True:
     #Establish the connection
     print 'Ready to serve...'
     connectionSocket, addr = serverSocket.accept()        #acceptes connection to client
     try:
-        message = #             #
+        message = 'Msg.html'
         filename = message.split()[1]
         f = open(filename[1:])
-        outputdata = #              #
+        outputdata = 'Penis'#
         #Send one HTTP header line into socket
         #
-
         #
         #Send the content of the requested file to the client
         for i in range(0, len(outputdata)):
