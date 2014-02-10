@@ -24,10 +24,11 @@ while True:
     print 'Ready to serve...'
     connectionSocket, addr = serverSocket.accept()        #acceptes connection to client
     try:
-        message = 'Msg.html'
+        message, clientAddress = serverSocket.recvfrom(1024)
         filename = message.split()[1]
         f = open(filename[1:])
-        outputdata = 'Penis'#
+        outputdata = 'Message has been sent'
+        #
         #Send one HTTP header line into socket
         #
         #
