@@ -16,7 +16,7 @@
 from socket import *
 serverSocket = socket(AF_INET, SOCK_STREAM)
 #Prepare a socket
-serverPort = 12000
+serverPort = 12010
 serverSocket.bind(('localhost',serverPort))
 serverSocket.listen(1)                   #lets server catch client's call
 while True:
@@ -24,23 +24,27 @@ while True:
     print 'Ready to serve...'
     connectionSocket, addr = serverSocket.accept()        #acceptes connection to client
     try:
-        message, clientAddress = serverSocket.recvfrom(1024)
+        message, clientAddress = connectionSocket.recvfrom(1024)
+        print message
         filename = message.split()[1]
         f = open(filename[1:])
-        outputdata = 'Message has been sent'
-        #
-        #Send one HTTP header line into socket
-        #
-        #
+        outputdata = f.read() #F is file name. This reads in file
+        print outputdata
+        connectionSocket.send('HTTP/1.1 200 OK'+'\n\n')
+        from time import gmtime, strftime
+        currenttime = strftime("%a,%d,%b,%Y,%H:%M:%S+0000",gmtime())
+        connectionSocket.send(currenttime+'\n\n')
+        connectionSocket.send('Content Length: ' + `len(outputdata)` +'\n\n')
+        connectionSocket.send('Conten Type: text/html'+'\n\n')
+        connectionSocket.send('')
         #Send the content of the requested file to the client
         for i in range(0, len(outputdata)):
             connectionSocket.send(outputdata[i])
         connectionSocket.close()
     except IOError:
         #Send response message for file not found
-        message, clientAddress = serverSocket.recvfrom(1024)
-        errormsg = message('Error-could not recieve the file')
-        connectionSocket.send(errormsg)
+        connectionSocket.send('HTTP/1.1 404 Not Found'+'\n\n')
         #Close client socket
         connectionSocket.close()
+serverSocket.close()
         
