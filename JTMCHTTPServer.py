@@ -30,21 +30,21 @@ while True:
         f = open(filename[1:])
         outputdata = f.read() #F is file name. This reads in file
         print outputdata
-        connectionSocket.send('HTTP/1.1 200 OK'+'\r\n')
+        connectionSocket.send('HTTP/1.1 200 OK'+'\r\n\r\n')
         
         from time import gmtime, strftime
         currenttime = strftime("%a,%d,%b,%Y,%H:%M:%S+0000",gmtime())
         connectionSocket.send(currenttime+'\r\n')
-        connectionSocket.send('Content Length: ' + `len(outputdata)` +'\r\n')
-        connectionSocket.send('Conten Type: text/html'+'\r\n')
-        connectionSocket.send("")
+        connectionSocket.send('Content Length: ' + `len(outputdata)` +'\r\n\r\n')
+        connectionSocket.send('Conten Type: text/html'+'\r\n\r\n')
+        connectionSocket.send('')
         #Send the content of the requested file to the client
         for i in range(0, len(outputdata)):
             connectionSocket.send(outputdata[i])
         connectionSocket.close()
     except IOError:
         #Send response message for file not found
-        connectionSocket.send('HTTP/1.1 404 Not Found'+'\r\n')
+        connectionSocket.send('HTTP/1.1 404 Not Found'+'\r\n\r\n')
         #Close client socket
         connectionSocket.close()
 serverSocket.close()

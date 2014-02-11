@@ -9,8 +9,7 @@
 #UDPPingerClient.py
 
 from socket import *
-from datetime import datetime
-from time import time
+import time
 serverName = 'localhost'
 serverPort = 12005
 clientSocket = socket(AF_INET,SOCK_DGRAM)
@@ -23,16 +22,15 @@ while i < counter:
 	i+= 1
 print '\n Ping attempt number'+`i`+'is currently in progress. \n'
 print 'Number of pings left: ' + `leftover`
-##
-##dt= datetime.now()
-##clientSocket.sendto(message,(serverName,serverPort))
-##clientSocket.settimeout(1)
-##try:
-##	modifiedMessage,serverAddress = clientSocket.recvfrom(1024)
-##	dt2 = datetime.now()
-##	et = dt - dt2;
-##	print modifiedMessage
-##	print 'Time elapsed',et.microseconds, 'microseconds. \n'
+dt= time.clock()
+clientSocket.sendto(message,(serverName,serverPort))
+clientSocket.settimeout(1)
+try:
+	modifiedMessage,serverAddress = clientSocket.recvfrom(1024)
+	dt2 = time.clock()
+	et = dt - dt2;
+	print modifiedMessage
+	print 'Time elapsed'+`et`+ 'microseconds. \n'
 except timeout:
 	print 'Request timed out'
 if i == 10:
