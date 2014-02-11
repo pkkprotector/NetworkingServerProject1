@@ -18,19 +18,19 @@ counter = 10 			#total number of pings we send to the server
 i = 0 					#this will be our counted pings.
 leftover = counter - i
 print 'Sending '+ `counter` + 'to server \n'
-while i < counter:
-	i+= 1
-print '\n Ping attempt number'+`i`+'is currently in progress. \n'
-print 'Number of pings left: ' + `leftover`
-dt= time.clock()
-clientSocket.sendto(message,(serverName,serverPort))
-clientSocket.settimeout(1)
 try:
-	modifiedMessage,serverAddress = clientSocket.recvfrom(1024)
-	dt2 = time.clock()
-	et = dt - dt2;
-	print modifiedMessage
-	print 'Time elapsed'+`et`+ 'microseconds. \n'
+        while i < counter:
+                i+= 1
+                print '\n Ping attempt number '+`i`+' is currently in progress. \n'
+                print 'Number of pings left: ' + `leftover`
+                dt= time.clock()
+                clientSocket.sendto(message,(serverName,serverPort))
+                clientSocket.settimeout(1)
+                modifiedMessage,serverAddress = clientSocket.recvfrom(1024)
+                dt2 = time.clock()
+                et = dt2 - dt;
+                print modifiedMessage
+                print 'Time elapsed '+`et`+ ' microseconds. \n'
 except timeout:
 	print 'Request timed out'
 if i == 10:
