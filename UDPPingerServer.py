@@ -7,13 +7,13 @@
 
 #UDPPingerServer.py
 #We will need the following module to generate randomizzed lost packets
-#import random
+import random
 from socket import *
 #Create a UDP Socket
 #Notice the use of SOCK_DGRAM for UDP pacets
 serverSocket = socket(AF_INET,SOCK_DGRAM)
 #Assign IP address and port number to socket
-serverSocket.bind(('',12000))
+serverSocket.bind(('',12005))
 while True:
     #Generate random number in the range of 0 to 10
     rand = random.randint(0,10)

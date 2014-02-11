@@ -31,12 +31,13 @@ while True:
         outputdata = f.read() #F is file name. This reads in file
         print outputdata
         connectionSocket.send('HTTP/1.1 200 OK'+'\r\n')
+        
         from time import gmtime, strftime
         currenttime = strftime("%a,%d,%b,%Y,%H:%M:%S+0000",gmtime())
         connectionSocket.send(currenttime+'\r\n')
         connectionSocket.send('Content Length: ' + `len(outputdata)` +'\r\n')
         connectionSocket.send('Conten Type: text/html'+'\r\n')
-        connectionSocket.send('')
+        connectionSocket.send("")
         #Send the content of the requested file to the client
         for i in range(0, len(outputdata)):
             connectionSocket.send(outputdata[i])
