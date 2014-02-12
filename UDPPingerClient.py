@@ -10,48 +10,51 @@
 
 from socket import *
 from datetime import datetime
-serverName = 'localhost'
+serverName = 'localhost'        #This the server we're calling
 #serverName = '10.250.13.27'    Lucas address to test
-serverPort = 12005
+serverPort = 12005              #port number
 clientSocket = socket(AF_INET,SOCK_DGRAM)
-message = 'Ping'
+message = 'Ping'                
 counter = 10                    #total number of pings we send to the server
 i = 0                                   #this will be our counted pings.
-leftover = counter - i
-lowestping = 10000000000 #this will be our lowest ping 
+leftover = counter - i          #this keep track of the remaining pings
+lowestping = 10000000 #this will be our lowest ping 
 highestping = 0 #this will be the max number
-pingpercent = 0
-averageping = 0
-acceptedpings = 0
+pingpercent = 0 #this is the total percent of ping lost
+averageping = 0 #this is our average ping count
+acceptedpings = 0 #accepted pings counter
 print 'Sending '+ `counter` + 'to server \n'
 while i < counter:
-        i+= 1
+        i+= 1           #increment
         print '\n Ping attempt number '+`i`+' is currently in progress. \n'
         print 'Number of pings left: ' + `leftover`
-        start= datetime.now()
-        leftover = counter - i
-        clientSocket.sendto(message,(serverName,serverPort))
-        clientSocket.settimeout(1)
+        start= datetime.now()  #what time ping was sent
+        leftover = counter - i #decrements ping numbers
+        clientSocket.sendto(message,(serverName,serverPort))   #sends ping to server
+        clientSocket.settimeout(1)                      #max time is 1 second to send ping
         try:
                 modifiedMessage,serverAddress = clientSocket.recvfrom(1024)
-                final = datetime.now()
-                totaltime = start - final;
-                averageping = averageping + totaltime.microseconds
-                acceptedpings = acceptedpings+1
+                final = datetime.now()          #time when ping came back
+                totaltime = start - final;      #time from start to finish
+                averageping = averageping + totaltime.microseconds #addes up counter
+                acceptedpings = acceptedpings+1         #increments ping
                 if(totaltime.microseconds < lowestping):
-                        lowestping = totaltime.microseconds
+                        lowestping = totaltime.microseconds   #lowest time to ping
                 if(totaltime.microseconds > highestping):
-                        highestping = totaltime.microseconds
+                        highestping = totaltime.microseconds  #highest time to ping
+                
+                #This returns the ping plus the time it took to return back to client
                 print modifiedMessage
                 print 'Time elapsed ',totaltime.microseconds,' microseconds. \n'
         except timeout:
                 print 'Request timed out'
+#Once the value is ten pings
 if i == 10:
-        finalaverage = (averageping/acceptedpings)
-        print 'Highest ping time was: ', highestping,'\n'
-        print 'Lowest ping time was: ', lowestping,'\n'
-        print 'Average ping time was: ', finalaverage, '\n'
-        pingpercent = 1- acceptedpings/float(i)
-        pingpercent = pingpercent*100
-        print 'Percent loss was: ',pingpercent,'% \n'
-        clientSocket.close()
+        finalaverage = (averageping/acceptedpings)           #calculated value of average ping
+        print 'Highest ping time was: ', highestping,'\n'       #return highest ping
+        print 'Lowest ping time was: ', lowestping,'\n'         #return lowest ping
+        print 'Average ping time was: ', finalaverage, '\n'     #return average
+        pingpercent = 1- acceptedpings/float(i)                 #calculates ping percent
+        pingpercent = pingpercent*100                   
+        print 'Percent loss was: ',pingpercent,'% \n'   #returns percent loss     
+        clientSocket.close()                    #closes our connection to server
