@@ -32,9 +32,9 @@ while True:
 
         #The reason why I have these statements is because my server will crash
         #because the message size is empty. 
-        if not message:
-            connectionSocket.send('HTTP/1.1 404 Not Found \r\n\r\n')
-        
+        if len(message)==0:
+            #This goes back to the top of the loop because the machine is accepting a 0 length string
+            continue
 
         filename = message.split()[1]
 
@@ -62,7 +62,7 @@ while True:
     except IOError:
         #Send response message for file not found
         connectionSocket.send('HTTP/1.1 404 Not Found \r\n\r\n')
-        
+        connectionSocket.send('<html><body>File not found </body></html>')
         connectionSocket.close()  #Close client socket    
 serverSocket.close()            #Closes server when done with files
         
