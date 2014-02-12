@@ -10,8 +10,9 @@
 
 from socket import *
 from datetime import datetime
-serverName = '10.250.13.27'
-serverPort = 12000
+serverName = 'localhost'
+#serverName = '10.250.13.27'    Lucas address to test
+serverPort = 12005
 clientSocket = socket(AF_INET,SOCK_DGRAM)
 message = 'Ping'
 counter = 10                    #total number of pings we send to the server
@@ -46,10 +47,11 @@ while i < counter:
         except timeout:
                 print 'Request timed out'
 if i == 10:
-        finalaverage = averageping/acceptedpings
+        finalaverage = (averageping/acceptedpings)
         print 'Highest ping time was: ', highestping,'\n'
         print 'Lowest ping time was: ', lowestping,'\n'
         print 'Average ping time was: ', finalaverage, '\n'
         pingpercent = 1- acceptedpings/float(i)
+        pingpercent = pingpercent*100
         print 'Percent loss was: ',pingpercent,'% \n'
         clientSocket.close()
