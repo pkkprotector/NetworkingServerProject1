@@ -1,7 +1,7 @@
 #Project 1
 #Creators: Jonathan Thornton, Matthew Creamer
 #Created on: 2/8/2014
-#Last Editted on: 2/11/2014
+#Last Editted on: 2/13/2014
 #Purporse is to create a web server that will send a file to a client
 #which is connected to the server.
 #Requirements from Assignment 1 would be:
@@ -24,9 +24,10 @@ while True:
     #Establish the connection
     print 'Ready to serve...'
     connectionSocket, addr = serverSocket.accept()        #accepts connection to client
+    
+
     try:
         message, clientAddress = connectionSocket.recvfrom(1024)
-        
         #Test case to see why my client crashes over time
         #print "the message: " + message
 
@@ -38,7 +39,15 @@ while True:
 
         filename = message.split()[1]
 
-        #Note: that this line the client crashes after about 1~3 minutes. 
+
+        #Added in the close command this takes the command close from the window and turns the server off
+        if filename == '/close':
+            connectionSocket.send('<html><body>Server will now close. Thank you</body></html>')
+            connectionSocket.send('<br/>')
+            connectionSocket.send('<html><img src="http://cdn-ak.f.st-hatena.com/images/fotolife/a/aobanozomi/20110624/20110624033135.jpg" width="640" height="360"></html>')
+            connectionSocket.close()
+            serverSocket.close()
+
         f = open(filename[1:])      #This opens the file
         outputdata = f.read() #f is file name. This reads in file
 
