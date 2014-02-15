@@ -28,6 +28,13 @@ while True:
 
     try:
         message, clientAddress = connectionSocket.recvfrom(1024)
+        
+        #This will be my introduction HTML file which I would like to display when the
+        #server is accessed. This calls upon the HTTPServerHome.html which is in the server
+        #directory
+        connectionSocket.send('<html>HTTPServerHome.html</html>')
+        
+
         #Test case to see why my client crashes over time
         #print "the message: " + message
 
@@ -71,7 +78,8 @@ while True:
     except IOError:
         #Send response message for file not found
         connectionSocket.send('HTTP/1.1 404 Not Found \r\n\r\n')
-        connectionSocket.send('<html><body>File not found </body></html>')
+        connectionSocket.send('<html><h1 style="font-size:30px">File not found </h1></html>')
+        connectionSocket.send('<html><img src="https://scontent-a-iad.xx.fbcdn.net/hphotos-prn2/t1/1925274_10203063564739559_1646662215_n.jpg" width="438" height="585"></html>')
         connectionSocket.close()  #Close client socket    
 serverSocket.close()            #Closes server when done with files
         
